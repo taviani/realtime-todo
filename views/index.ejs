@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Todolist partagée</title>
+        <style>
+            a {text-decoration: none; color: black;}
+            ul {list-style: none;}
+            div {text-align:center;width:100%;}
+        </style>
+    </head>
+
+    <body>
+        <div>
+        <h1>Todolist</h1>
+
+        <ul id="zone-liste">
+            <% todos.forEach(function(todo) { %>
+                <li id="<%= todo.id %>"><a href="#">✘</a> <%= todo.title %></li>
+            <% }); %>
+            </ul>
+    </div>
+    <div>
+        <form action="/" method="post" id="formulaire_liste">
+            <input type="text" name="todo" id="todo" placeholder="Votre todo..." size="50" autofocus />
+            <input type="submit" id="envoi_todo" value="Envoyer" />
+        </form>
+
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+
+            // Connexion à socket.io
+            var socket = io.connect('http://localhost:8080');
+
+            // Quand on reçoit un todo, on l'insère dans la page
+            socket.on('addtodo', function(data) {
+                insereTodo(data.todo)
+            })
+
+            // Quand on reçoit un removetodo, on le supprime de la page
+            socket.on('removetodo', function(id) {
+                deleteTodo(id)
+            })
+
+            // Lorsqu'on envoie le formulaire, on transmet le todo et on l'affiche sur la page
+            $('#formulaire_liste').submit(function () {
+                var todo = $('#todo').val();
+                socket.emit('addtodo', todo); // Transmet le todo aux autres
+                insereTodo(todo); // Affiche le todo aussi sur notre page
+                $('#todo').val('').focus(); // Vide la zone de formulaire et remet le focus dessus
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            })
+            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id et on retire le todo de la page
+            $("#zone-liste").on( "click", "li a", function () {
+                var id = $(this).parent().attr('id');
+                socket.emit('removetodo', id); // Transmet l'id du todo aux autres
+                deleteTodo(id); // Supprime le todo sur notre page
+            })
+            
+            // Ajoute un todo dans la page
+            function insereTodo(todo) {
+                var id = document.getElementById("zone-liste").getElementsByTagName("li").length + 1;
+                $("#zone-liste")
+                .append('<li id="' + id + '"><a href="#">✘</a>' + todo + '</li>');
+            }
+
+            // Supprime un todo 
+            function deleteTodo(id) {
+                $('#'+ id).remove();
+            }
+        </script>
+    </div>
+    </body>
+</html>

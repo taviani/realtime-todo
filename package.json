@@ -1,0 +1,14 @@
+{
+    "name": "realtime-todolist",
+    "version": "0.1.0",
+    "dependencies": {
+        "body-parser": "~1.10.1",
+        "ejs": "~2.1.4",
+        "ent": "~0.1.0",
+        "express": "~4.11.0",
+        "socket.io": "~1.2.1",
+        "sqlite": "^3.0.3"
+    },
+    "author": "Ed <ed@kde.fr>",
+    "description": "Un gestionnaire de todolist en temps réel"
+}
