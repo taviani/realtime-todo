@@ -5,5 +5,5 @@ To install
 'npm install'
 
 To start 
-'node app.js'
+'npm start'
 

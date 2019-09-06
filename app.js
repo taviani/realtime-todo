@@ -23,6 +23,16 @@ app.get('/', function (req, res) {
     }));
 });
 
+
+// Chargement de la page index.ejs
+app.post('/', function (req, res) {
+    Todo.all((err, todos) => res.format({
+    html: () => {
+    res.render('index.ejs', { todos: todos});
+    }
+    }));
+});
+
 io.sockets.on('connection', function (socket) {
 
     // Dès qu'on reçoit un todo, on récupère le transmet aux autres personnes
