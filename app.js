@@ -1,6 +1,6 @@
 const app = require('express')(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server),
+    io = require('socket.io')(server),
     ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP
     bodyParser = require('body-parser'); // Charge le middleware de sessions
 
@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
     }));
 });
 
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
 
     // Dès qu'on reçoit un todo, on récupère le transmet aux autres personnes
     socket.on('addtodo', function (todo) {
@@ -41,4 +41,6 @@ io.sockets.on('connection', function (socket) {
     }); 
 });
 
-server.listen(port);
+server.listen(port, function(){
+    console.log('listening on *:' + port);
+  });
