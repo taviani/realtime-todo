@@ -4,6 +4,8 @@ const app = require('express')(),
     ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP
     bodyParser = require('body-parser'); // Charge le middleware de sessions
 
+const port = process.env.PORT || 3000;    
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -39,4 +41,4 @@ io.sockets.on('connection', function (socket) {
     }); 
 });
 
-server.listen(80);
+server.listen(port);
