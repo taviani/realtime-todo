@@ -9,6 +9,9 @@
         "socket.io": "~1.2.1",
         "sqlite": "^3.0.3"
     },
+    "scripts": {    
+        "start": "node app.js"
+    },
     "author": "Ed <ed@kde.fr>",
     "description": "Un gestionnaire de todolist en temps réel"
 }
