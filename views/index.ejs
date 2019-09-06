@@ -21,7 +21,7 @@
             </ul>
     </div>
     <div>
-        <form action="/" method="post" id="formulaire_liste">
+        <form action="">
             <input type="text" name="todo" id="todo" placeholder="Votre todo..." size="50" autofocus />
             <input type="submit" id="envoi_todo" value="Envoyer" />
         </form>
@@ -32,7 +32,7 @@
         <script>
 
             // Connexion à socket.io
-            var socket = io.connect('http://localhost:8080');
+            var socket = io.connect('http://localhost:3000');
 
             // Quand on reçoit un todo, on l'insère dans la page
             socket.on('addtodo', function(data) {
@@ -45,7 +45,7 @@
             })
 
             // Lorsqu'on envoie le formulaire, on transmet le todo et on l'affiche sur la page
-            $('#formulaire_liste').submit(function () {
+            $('form').submit(function () {
                 var todo = $('#todo').val();
                 socket.emit('addtodo', todo); // Transmet le todo aux autres
                 insereTodo(todo); // Affiche le todo aussi sur notre page

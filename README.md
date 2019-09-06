@@ -6,4 +6,3 @@ To install
 
 To start 
 'npm start'
-
