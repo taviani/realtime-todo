@@ -1,6 +1,12 @@
 {
     "name": "realtime-todolist",
     "version": "0.1.0",
+    "description": "Un gestionnaire de todolist en temps réel",
+    "author": "Ed <ed@kde.fr>",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/taviani/realtime-todo.git"
+      },
     "dependencies": {
         "body-parser": "~1.10.1",
         "ejs": ">=2.5.5",
@@ -9,9 +15,7 @@
         "socket.io": "~1.2.1",
         "sqlite": "^3.0.3"
     },
-    "scripts": {    
+    "scripts": {
         "start": "node app.js"
-    },
-    "author": "Ed <ed@kde.fr>",
-    "description": "Un gestionnaire de todolist en temps réel"
+    }
 }
