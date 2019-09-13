@@ -9,11 +9,6 @@ addons:
     packages:
       - postgresql-10
       - postgresql-client-10
-env:
-  global:
-    - PGPORT=5433
-    - DB_NAME=todo_test
-    - DB_USER=todo
 before_script:
-  - psql --command="CREATE USER ${DB_USER};"
-  - psql --command="CREATE DATABASE ${DB_NAME} WITH OWNER = ${DB_USER};"
+  - psql -c "CREATE DATABASE testing_db;" -U postgres
+  - psql -c "CREATE USER foo WITH PASSWORD 'bar';" -U postgres
