@@ -5,7 +5,7 @@
 -- Dumped from database version 11.5 (Ubuntu 11.5-1.pgdg16.04+1)
 -- Dumped by pg_dump version 11.5 (Ubuntu 11.5-1.pgdg18.04+1)
 
--- Started on 2019-09-16 14:51:06 CEST
+-- Started on 2019-09-16 16:00:57 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -44,7 +44,7 @@ ALTER TABLE ONLY public.todos
     ADD CONSTRAINT todos_pkey PRIMARY KEY (id);
 
 
--- Completed on 2019-09-16 14:51:08 CEST
+-- Completed on 2019-09-16 16:00:58 CEST
 
 --
 -- PostgreSQL database dump complete

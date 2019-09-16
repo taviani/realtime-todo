@@ -14,6 +14,7 @@ before_install:
 before_script:
   - psql -c "CREATE DATABASE testing_db;" -U postgres
   - psql -c "CREATE USER foo WITH PASSWORD 'bar';" -U postgres
+  - psql --dbname=testing_db --file=sql/create-tables.sql
 test:
   adapter: postgresql
   database: testing_db
