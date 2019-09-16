@@ -4,11 +4,11 @@ node_js:
 services:
   - postgresql
 addons:
-  postgresql: "10"
+  postgresql: "11"
   apt:
     packages:
-      - postgresql-10
-      - postgresql-client-10
+      - postgresql-11
+      - postgresql-client-11
 before_install:
   - npm install -g standard
 before_script:
