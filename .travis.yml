@@ -4,16 +4,16 @@ node_js:
 services:
   - postgresql
 addons:
-  postgresql: "11"
+  postgresql: "9.6"
   apt:
     packages:
-      - postgresql-11
-      - postgresql-client-11
+      - postgresql-9.6
+      - postgresql-client-9.6
 before_install:
   - npm install -g standard
 before_script:
   - psql --version
-  - psql -c 'CREATE DATABASE {{testing_db}};' -U postgres
+  - psql -c 'CREATE DATABASE testing_db;' -U postgres
   - psql -c 'CREATE USER foo WITH PASSWORD 'bar';' -U postgres
   - psql --dbname=testing_db --file=sql/create-tables.sql
 test:
