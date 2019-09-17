@@ -9,7 +9,8 @@ const { Pool } = require('pg')
 dotenv.config()
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
 })
 
 pool.on('connect', () => {
@@ -40,12 +41,13 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', function (socket) {
-  // Dès qu'on reçoit un todo, on récupère le transmet aux autres personnes
+  // Dès qu'on reçoit un todo, on récupère et le transmet aux autres personnes
   socket.on('addtodo', function (todo) {
-    todo = ent.encode(todo)
+    const title = ent.encode(todo.title)
+    const id = todo.id
     // console.log(todo)
-    const text = 'INSERT INTO todos(title) VALUES($1) RETURNING *'
-    const values = [todo]
+    const text = 'INSERT INTO todos(title, id) VALUES($1, $2) RETURNING *'
+    const values = [title, id]
     pool.query(text, values, (err, result) => {
       if (err) {
         console.log(err.stack)
