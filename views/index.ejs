@@ -46,8 +46,8 @@
 
             // Lorsqu'on envoie le formulaire, on transmet le todo et on l'affiche sur la page
             $('form').submit(function () {
-                const id = document.querySelectorAll("#zone-liste li").length + 1
-                console.log("les ids : " + id)
+                const id = document.querySelectorAll("#zone-liste li").length + 2
+                console.log("ids + 1 = " + id)
                 const todo = {title : $('#todo').val(), id : id }
                 socket.emit('addtodo', todo); // Transmet le todo aux autres
                 insereTodo(todo); // Affiche le todo aussi sur notre page
