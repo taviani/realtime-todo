@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
   socket.on('addtodo', function (todo) {
     const title = ent.encode(todo.title)
     const id = todo.id
-    // console.log(todo)
+    console.log(todo)
     const text = 'INSERT INTO todos(title, id) VALUES($1, $2) RETURNING *'
     const values = [title, id]
     pool.query(text, values, (err, result) => {
