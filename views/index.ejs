@@ -3,28 +3,32 @@
 <html>
     <head>
         <title>Todolist partagée</title>
-        <style>
-            a {text-decoration: none; color: black;}
-            ul {list-style: none;}
-            div {text-align:center;width:100%;}
-        </style>
+         <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </head>
 
     <body>
-        <div>
-        <h1>Todolist</h1>
+        <div class="container">
+        <h1>Ne pas oublier</h1>
 
-        <ul id="zone-liste">
+        <ul id="zone-liste" class="collection">
             <% todos.forEach(function(todo) { %>
-                <li id="<%= todo.id %>"><a href="#">✘</a> <%= todo.title %></li>
+                <li id="<%= todo.id %>" class="collection-item"><%= todo.title %><a href="#" class="secondary-content"><i class="material-icons">delete</i></a> </li>
             <% }); %>
-            </ul>
-    </div>
-    <div>
-        <form action="">
-            <input type="text" name="todo" id="todo" placeholder="Votre todo..." size="50" autofocus />
-            <input type="submit" id="envoi_todo" value="Envoyer" />
-        </form>
+        </ul>
+  
+        <div class="row">
+                <form class="col s12">
+                        <div class="input-field  col s12">
+                            <input type="text" id="todo" required/>
+                            <label for="todo">Nouvel élément</label>
+                        </div>
+                </form>
+        </div>
+        
 
 
         <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -65,7 +69,7 @@
             function insereTodo(todo) {
                // var id = document.getElementById("zone-liste").getElementsByTagName("li").length + 1;
                 $("#zone-liste")
-                .append('<li id="' + todo.id + '"><a href="#">✘</a>' + todo.title + '</li>');
+                .append('<li id="' + todo.id + '" class="collection-item">' + todo.title + '<a href="#" class="secondary-content"><i class="material-icons">delete</i></a></li>');
             }
 
             // Supprime un todo 
