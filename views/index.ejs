@@ -48,7 +48,7 @@
             $('form').submit(function () {
                 const id = document.querySelectorAll("#zone-liste li").length + 1
                 const todo = {title : $('#todo').val(), id : id }
-                console.log("le nouveau todo : " + todo)
+                console.log("le nouveau todo : " + todo.title + " et id : " + todo.id)
                 socket.emit('addtodo', todo); // Transmet le todo aux autres
                 insereTodo(todo); // Affiche le todo aussi sur notre page
                 $('#todo').val('').focus(); // Vide la zone de formulaire et remet le focus dessus
