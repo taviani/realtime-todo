@@ -5,7 +5,7 @@
 -- Dumped from database version 10.10 (Ubuntu 10.10-1.pgdg16.04+1)
 -- Dumped by pg_dump version 10.10 (Ubuntu 10.10-1.pgdg19.04+1)
 
--- Started on 2019-10-02 12:14:57 CEST
+-- Started on 2019-10-02 13:59:24 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,8 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE IF EXISTS ONLY public.todos DROP CONSTRAINT IF EXISTS todos_pkey;
+ALTER TABLE IF EXISTS public.todos ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE IF EXISTS public.todos_id_seq;
 DROP TABLE IF EXISTS public.todos;
 DROP EXTENSION IF EXISTS plpgsql;
 DROP SCHEMA IF EXISTS public;
@@ -31,7 +32,7 @@ CREATE SCHEMA public;
 
 
 --
--- TOC entry 3681 (class 0 OID 0)
+-- TOC entry 3682 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
@@ -48,7 +49,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 3682 (class 0 OID 0)
+-- TOC entry 3683 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
 --
@@ -66,21 +67,43 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE public.todos (
-    id integer NOT NULL,
-    title character varying(250)
+    title character varying(250),
+    id integer NOT NULL
 );
 
 
 --
--- TOC entry 3553 (class 2606 OID 1024671229)
--- Name: todos todos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- TOC entry 197 (class 1259 OID 1026382693)
+-- Name: todos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.todos
-    ADD CONSTRAINT todos_pkey PRIMARY KEY (id);
+CREATE SEQUENCE public.todos_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
--- Completed on 2019-10-02 12:15:11 CEST
+--
+-- TOC entry 3684 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: todos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.todos_id_seq OWNED BY public.todos.id;
+
+
+--
+-- TOC entry 3554 (class 2604 OID 1026382695)
+-- Name: todos id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.todos ALTER COLUMN id SET DEFAULT nextval('public.todos_id_seq'::regclass);
+
+
+-- Completed on 2019-10-02 13:59:35 CEST
 
 --
 -- PostgreSQL database dump complete

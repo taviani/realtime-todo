@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
   socket.on('addtodo', function (todo) {
     const title = ent.encode(todo.title)
     const id = todo.id
-    console.log(todo)
+    // console.log(todo)
     const text = 'INSERT INTO todos(title, id) VALUES($1, $2) RETURNING *'
     const values = [ent.decode(title), id]
     pool.query(text, values, (err, result) => {
@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
       }
     })
 
-    socket.broadcast.emit('addtodo', { todo: todo })
+    io.emit('displaytodo', todo)
   })
   // Dès qu'on supprime un todo, on transmet son id aux autres personnes
   socket.on('removetodo', function (id) {
@@ -71,7 +71,7 @@ io.on('connection', function (socket) {
         console.log('value deleted : ' + id)
       }
     })
-    socket.broadcast.emit('removetodo', id)
+    io.emit('removetodo', id)
   })
 })
 

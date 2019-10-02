@@ -39,8 +39,9 @@
             var socket = io();
 
             // Quand on reçoit un todo, on l'insère dans la page
-            socket.on('addtodo', function(data) {
-                insereTodo(data.todo, data.id)
+            socket.on('displaytodo', function(data) {
+                // console.log(data.id + ' ' + data.title);
+                insereTodo(data)
             })
 
             // Quand on reçoit un removetodo, on le supprime de la page
@@ -48,21 +49,19 @@
                 deleteTodo(id)
             })
 
-            // Lorsqu'on envoie le formulaire, on transmet le todo et on l'affiche sur la page
+            // Lorsqu'on envoie le formulaire, on transmet le todo 
             $('form').submit(function () {
                 const id = document.querySelectorAll("#zone-liste li").length + 1
                 const todo = {title : $('#todo').val(), id : id }
-                console.log("le nouveau todo : " + todo.title + " et id : " + todo.id)
+                // console.log("le nouveau todo : " + todo.title + " et id : " + todo.id)
                 socket.emit('addtodo', todo); // Transmet le todo aux autres
-                insereTodo(todo); // Affiche le todo aussi sur notre page
                 $('#todo').val('').focus(); // Vide la zone de formulaire et remet le focus dessus
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             })
-            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id et on retire le todo de la page
+            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id 
             $("#zone-liste").on( "click", "li a", function () {
                 var id = $(this).parent().attr('id');
                 socket.emit('removetodo', id); // Transmet l'id du todo aux autres
-                deleteTodo(id); // Supprime le todo sur notre page
             })
             
             // Ajoute un todo dans la page
