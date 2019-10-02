@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
     const id = todo.id
     console.log(todo)
     const text = 'INSERT INTO todos(title, id) VALUES($1, $2) RETURNING *'
-    const values = [title, id]
+    const values = [ent.decode(title), id]
     pool.query(text, values, (err, result) => {
       if (err) {
         console.log(err.stack)
