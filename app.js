@@ -5,6 +5,7 @@ const ent = require('ent') // Permet de bloquer les caractères HTML (sécurité
 const bodyParser = require('body-parser') // Charge le middleware de sessions
 const dotenv = require('dotenv')
 const { Pool } = require('pg')
+const randomId = require('uuid/v1')
 
 dotenv.config()
 
@@ -44,7 +45,7 @@ io.on('connection', function (socket) {
   // Dès qu'on reçoit un todo, on récupère et le transmet aux autres personnes
   socket.on('addtodo', function (todo) {
     const title = ent.encode(todo.title)
-    const id = todo.id
+    const id = randomId()
     // console.log(todo)
     const text = 'INSERT INTO todos(title, id) VALUES($1, $2) RETURNING *'
     const values = [ent.decode(title), id]
@@ -55,7 +56,7 @@ io.on('connection', function (socket) {
         console.log(result.rows[0])
       }
     })
-
+    todo.id = id
     io.emit('displaytodo', todo)
   })
   // Dès qu'on supprime un todo, on transmet son id aux autres personnes

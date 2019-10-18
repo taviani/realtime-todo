@@ -19,7 +19,7 @@
                 <li id="<%= todo.id %>" class="collection-item"><%= todo.title %><a href="#" class="secondary-content"><i class="material-icons">delete</i></a> </li>
             <% }); %>
         </ul>
-  
+
         <div class="row">
                 <form class="col s12">
                         <div class="input-field  col s12">
@@ -28,13 +28,11 @@
                         </div>
                 </form>
         </div>
-        
-
 
         <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-           
+
             // Connexion à socket.io
             var socket = io();
 
@@ -49,7 +47,7 @@
                 deleteTodo(id)
             })
 
-            // Lorsqu'on envoie le formulaire, on transmet le todo 
+            // Lorsqu'on envoie le formulaire, on transmet le todo
             $('form').submit(function () {
                 const id = document.querySelectorAll("#zone-liste li").length + 1
                 const todo = {title : $('#todo').val(), id : id }
@@ -58,12 +56,12 @@
                 $('#todo').val('').focus(); // Vide la zone de formulaire et remet le focus dessus
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             })
-            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id 
+            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id
             $("#zone-liste").on( "click", "li a", function () {
                 var id = $(this).parent().attr('id');
                 socket.emit('removetodo', id); // Transmet l'id du todo aux autres
             })
-            
+
             // Ajoute un todo dans la page
             function insereTodo(todo) {
                // var id = document.getElementById("zone-liste").getElementsByTagName("li").length + 1;
@@ -71,7 +69,7 @@
                 .append('<li id="' + todo.id + '" class="collection-item">' + todo.title + '<a href="#" class="secondary-content"><i class="material-icons">delete</i></a></li>');
             }
 
-            // Supprime un todo 
+            // Supprime un todo
             function deleteTodo(id) {
                 $('#'+ id).remove();
             }
