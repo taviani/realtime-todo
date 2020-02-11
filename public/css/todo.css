@@ -1,0 +1,40 @@
+a {
+    text-decoration: none;
+    color: gray;
+}
+a.false {
+    color: lightgray;
+}
+.collection, #todo {
+    font-size: 3rem;
+    padding: 1rem;
+    display: block;
+    border: 0px;
+}
+.collection-item, .collection .collection-item:last-child {
+    flex: auto;
+    border: solid 1px #999999;
+    border-radius: 5px;
+}
+.collection .collection-item  {
+    line-height: 3rem;
+    margin: 1rem 0;
+}
+.collection .collection-item .false {
+    text-decoration: line-through;
+}
+.input-field > label, label #todo {
+    font-size: 2rem;
+}
+.material-icons {
+    font-size: 3rem;
+}
+
+input:focus {
+    border-bottom: 1px solid orange !important;
+    box-shadow: 0 1px 0 0 orange !important;
+  }  
+label.active {
+    color: orange !important;
+  }
+  

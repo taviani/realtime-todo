@@ -6,6 +6,8 @@
          <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/css/todo.css"  type="text/css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </head>
@@ -16,13 +18,13 @@
 
         <ul id="zone-liste" class="collection">
             <% todos.forEach(function(todo) { %>
-                <li id="<%= todo.id %>" class="collection-item"><%= todo.title %><a href="#" class="secondary-content"><i class="material-icons">delete</i></a> </li>
+                <li id="<%= todo.id %>" class="collection-item z-depth-2 card-panel <%= todo.etat %>"><a href="#" class="<%= todo.etat %>"><%= todo.title %></a><a href="#" class="secondary-content"><i class="material-icons orange-text lighten-2">delete</i></a> </li>
             <% }); %>
         </ul>
 
         <div class="row">
                 <form class="col s12">
-                        <div class="input-field  col s12">
+                        <div class="input-field col s12">
                             <input type="text" id="todo" required/>
                             <label for="todo">Nouvel élément</label>
                         </div>
@@ -47,31 +49,65 @@
                 deleteTodo(id)
             })
 
+            // Quand on reçoit un toggle on toggle
+            socket.on('changetodo', function(data) {
+                //console.log(data.id + ' ' + data.etat);
+                toggleTodo(data)
+            })
+
             // Lorsqu'on envoie le formulaire, on transmet le todo
             $('form').submit(function () {
                 const id = document.querySelectorAll("#zone-liste li").length + 1
-                const todo = {title : $('#todo').val(), id : id }
+                const todo = {title : $('#todo').val(), id : id };
                 // console.log("le nouveau todo : " + todo.title + " et id : " + todo.id)
                 socket.emit('addtodo', todo); // Transmet le todo aux autres
                 $('#todo').val('').focus(); // Vide la zone de formulaire et remet le focus dessus
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             })
-            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id
-            $("#zone-liste").on( "click", "li a", function () {
-                var id = $(this).parent().attr('id');
+            // Lorsqu'on clique sur la croix pour supprimer, on transmet l'id pour suppression
+            $("#zone-liste").on( "click", "li .secondary-content", function () {
+                const id = $(this).parent().attr('id');
                 socket.emit('removetodo', id); // Transmet l'id du todo aux autres
+            })
+            // Lorsqu'on clique sur le texte à faire, on transmet l'id et l'etat
+            $("#zone-liste").on( "click", "li .true", function () {
+                const id = $(this).parent().attr('id');
+                const todo = {id : id, etat : 'false'};            
+                socket.emit('changetodo', todo); // Transmet l'id du todo aux autres
+            })
+            // Lorsqu'on clique sur le texte fait, on transmet l'id et l'état
+            $("#zone-liste").on( "click", "li .false", function () {
+                const id = $(this).parent().attr('id');
+                const todo = {id : id, etat : 'true'};
+                socket.emit('changetodo', todo); // Transmet l'id du todo aux autres
             })
 
             // Ajoute un todo dans la page
             function insereTodo(todo) {
                // var id = document.getElementById("zone-liste").getElementsByTagName("li").length + 1;
                 $("#zone-liste")
-                .append('<li id="' + todo.id + '" class="collection-item">' + todo.title + '<a href="#" class="secondary-content"><i class="material-icons">delete</i></a></li>');
+                .prepend('<li id="' + todo.id + '" class="collection-item z-depth-2 card-panel true"><a href="#" class="true">' + todo.title + '</a><a href="#" class="secondary-content"><i class="material-icons orange-text lighten-2">delete</i></a></li>');
             }
 
             // Supprime un todo
             function deleteTodo(id) {
                 $('#'+ id).remove();
+            }
+
+            // Change l'état actuel du todo
+            function toggleTodo(todo) {
+                const $parent = $('#'+ todo.id);
+                const $elem = $parent.find('a:first');
+                $elem.toggleClass('true');
+                $elem.toggleClass('false');
+                $parent.toggleClass('true');
+                $parent.toggleClass('false');
+                if ($parent.hasClass('false')) {
+                    $parent.appendTo('#zone-liste')
+                }
+                if ($parent.hasClass('true')) {
+                    $parent.prependTo('#zone-liste')
+                }
             }
         </script>
     </div>

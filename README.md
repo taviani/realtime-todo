@@ -9,3 +9,5 @@ To install
 
 To start 
 'npm start'
+
+Inspired by [Tuto sur Medium](https://medium.com/@vapurrmaid/getting-started-with-heroku-postgres-and-pgadmin-run-on-part-2-90d9499ed8fb)

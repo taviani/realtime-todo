@@ -66,7 +66,8 @@ SET default_with_oids = false;
 
 CREATE TABLE public.todos (
     title character varying(255) NOT NULL,
-    id character varying(128) NOT NULL
+    id character varying(128) NOT NULL,
+    etat boolean DEFAULT true
 );
 
 
