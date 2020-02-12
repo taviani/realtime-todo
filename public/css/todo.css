@@ -5,9 +5,13 @@ a {
 a.false {
     color: lightgray;
 }
-.collection, #todo {
-    font-size: 3rem;
-    padding: 1rem;
+h1, li {
+    font-size: 5rem;
+    font-weight: lighter;
+    line-height: 5rem;
+}
+.collection {
+    padding: 1.5rem;
     display: block;
     border: 0px;
 }
@@ -17,7 +21,7 @@ a.false {
     border-radius: 5px;
 }
 .collection .collection-item  {
-    line-height: 3rem;
+    line-height: 7rem;
     margin: 1rem 0;
 }
 .collection .collection-item .false {
@@ -27,14 +31,21 @@ a.false {
     font-size: 2rem;
 }
 .material-icons {
-    font-size: 3rem;
+    font-size: 5rem;
 }
-
-input:focus {
-    border-bottom: 1px solid orange !important;
-    box-shadow: 0 1px 0 0 orange !important;
-  }  
-label.active {
-    color: orange !important;
-  }
+.input-field {
+    font-weight: lighter;
+}
+.input-field > label:not(.label-icon).active {
+    transform: translateY(-32px) scale(0.5); 
+}
+input, label {
+    min-height: 5rem !important;
+    line-height: 6rem !important;
+    font-size: 5rem !important;
+    font-weight: lighter !important;
+}
+input[type="text"] {
+    min-height: 6rem !important;
+}  
   

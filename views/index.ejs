@@ -13,12 +13,12 @@
     </head>
 
     <body>
-        <div class="container">
+        <div class="container center">
         <h1>Ne pas oublier</h1>
 
         <ul id="zone-liste" class="collection">
             <% todos.forEach(function(todo) { %>
-                <li id="<%= todo.id %>" class="collection-item z-depth-2 card-panel <%= todo.etat %>"><a href="#" class="<%= todo.etat %>"><%= todo.title %></a><a href="#" class="secondary-content"><i class="material-icons orange-text lighten-2">delete</i></a> </li>
+                <li id="<%= todo.id %>" class="collection-item z-depth-2 card-panel <%= todo.etat %>"><a href="#" class="<%= todo.etat %>"><%= todo.title %></a><a href="#" class="secondary-content"><i class="material-icons teal-text text-lighten-3">delete</i></a> </li>
             <% }); %>
         </ul>
 
@@ -86,7 +86,7 @@
             function insereTodo(todo) {
                // var id = document.getElementById("zone-liste").getElementsByTagName("li").length + 1;
                 $("#zone-liste")
-                .prepend('<li id="' + todo.id + '" class="collection-item z-depth-2 card-panel true"><a href="#" class="true">' + todo.title + '</a><a href="#" class="secondary-content"><i class="material-icons orange-text lighten-2">delete</i></a></li>');
+                .prepend('<li id="' + todo.id + '" class="collection-item z-depth-2 card-panel true"><a href="#" class="true">' + todo.title + '</a><a href="#" class="secondary-content"><i class="material-icons teal-text text-lighten-3">delete</i></a></li>');
             }
 
             // Supprime un todo
