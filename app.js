@@ -1,5 +1,6 @@
 const app = require('express')()
-const express = require('express');
+const express = require('express')
+const path = require('path')
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const ent = require('ent') // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP
@@ -21,8 +22,8 @@ const pool = new Pool({
 
 const port = process.env.PORT || 3000
 
-// public directory 
-app.use(express.static(__dirname + '/public'));
+// public directory
+app.use(express.static(path.join(__dirname, '/public')))
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -45,20 +46,19 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', function (socket) {
-
   // Dès qu'on modifie un todo, on transmet son id aux autres personnes
   socket.on('changetodo', function (todo) {
     const id = ent.encode(todo.id)
-    const etat = ent.encode(todo.etat) 
+    const etat = ent.encode(todo.etat)
 
     const text = 'UPDATE todos SET etat = $2 WHERE id = $1'
     const values = [id, etat]
     pool.query(text, values, (err) => {
-      // if (err) {
-      //   console.log(err.stack)
-      // } else {
-      //   console.log('value modified : ' + id + ' nouvel état : ' + etat)
-      // }
+      if (err) {
+        console.log(err.stack)
+      } else {
+        console.log('value modified : ' + id + ' nouvel état : ' + etat)
+      }
     })
     io.emit('changetodo', todo)
   })
@@ -71,11 +71,11 @@ io.on('connection', function (socket) {
     const text = 'INSERT INTO todos(title, id, etat) VALUES($1, $2, $3) RETURNING *'
     const values = [ent.decode(title), id, true]
     pool.query(text, values, (err, result) => {
-      // if (err) {
-      //   console.log(err.stack)
-      // } else {
-      //   console.log(result.rows[0])
-      // }
+      if (err) {
+        console.log(err.stack)
+      } else {
+        console.log(result.rows[0])
+      }
     })
     todo.id = id
     io.emit('displaytodo', todo)
@@ -88,16 +88,14 @@ io.on('connection', function (socket) {
     const text = 'DELETE FROM todos WHERE id = $1'
     const values = [id]
     pool.query(text, values, (err) => {
-      // if (err) {
-      //   console.log(err.stack)
-      // } else {
-      //   console.log('value deleted : ' + id)
-      // }
+      if (err) {
+        console.log(err.stack)
+      } else {
+        console.log('value deleted : ' + id)
+      }
     })
     io.emit('removetodo', id)
   })
-
-
 })
 
 server.listen(port, function () {
