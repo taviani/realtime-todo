@@ -7,13 +7,12 @@ const ent = require('ent') // Permet de bloquer les caractères HTML (sécurité
 const bodyParser = require('body-parser') // Charge le middleware de sessions
 const dotenv = require('dotenv')
 const { Pool } = require('pg')
-const randomId = require('uuid/v1')
+const { v4: uuidv4 } = require('uuid')
 
 dotenv.config()
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
+  connectionString: process.env.DATABASE_URL
 })
 
 // pool.on('connect', () => {
@@ -66,7 +65,7 @@ io.on('connection', function (socket) {
   // Dès qu'on reçoit un todo, on récupère et le transmet aux autres personnes
   socket.on('addtodo', function (todo) {
     const title = ent.encode(todo.title)
-    const id = randomId()
+    const id = uuidv4()
     // console.log(todo)
     const text = 'INSERT INTO todos(title, id, etat) VALUES($1, $2, $3) RETURNING *'
     const values = [ent.decode(title), id, true]
