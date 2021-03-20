@@ -36,16 +36,15 @@ app.use(bodyParser.json())
 
 // Chargement de la page index.ejs
 app.get('/', (req, res) => {
-  client.query('SELECT * FROM todos', (err, result) => {
+  client.query('SELECT * FROM todos ORDER BY etat DESC', (err, result) => {
     if (err) {
       console.log(err.stack)
-    } else {
-      res.format({
-        html: () => {
-          res.render('index.ejs', { todos: result.rows })
-        }
-      })
     }
+    res.format({
+      html: () => {
+        res.render('index.ejs', { todos: result.rows })
+      }
+    })
   })
 })
 
