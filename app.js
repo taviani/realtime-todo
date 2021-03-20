@@ -6,14 +6,19 @@ const io = require('socket.io')(server)
 const ent = require('ent') // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP
 const bodyParser = require('body-parser') // Charge le middleware de sessions
 const dotenv = require('dotenv')
-const { Pool } = require('pg')
+const { Client } = require('pg')
 const { v4: uuidv4 } = require('uuid')
 
 dotenv.config()
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 })
+
+client.connect();
 
 // pool.on('connect', () => {
 //   console.log('connected to the db')
@@ -31,7 +36,7 @@ app.use(bodyParser.json())
 
 // Chargement de la page index.ejs
 app.get('/', (req, res) => {
-  pool.query('SELECT * FROM todos', (err, result) => {
+  client.query('SELECT * FROM todos', (err, result) => {
     if (err) {
       console.log(err.stack)
     } else {
@@ -52,7 +57,7 @@ io.on('connection', function (socket) {
 
     const text = 'UPDATE todos SET etat = $2 WHERE id = $1'
     const values = [id, etat]
-    pool.query(text, values, (err) => {
+    client.query(text, values, (err) => {
       if (err) {
         console.log(err.stack)
       } else {
@@ -69,7 +74,7 @@ io.on('connection', function (socket) {
     // console.log(todo)
     const text = 'INSERT INTO todos(title, id, etat) VALUES($1, $2, $3) RETURNING *'
     const values = [ent.decode(title), id, true]
-    pool.query(text, values, (err, result) => {
+    client.query(text, values, (err, result) => {
       if (err) {
         console.log(err.stack)
       } else {
@@ -86,7 +91,7 @@ io.on('connection', function (socket) {
     // console.log(id)
     const text = 'DELETE FROM todos WHERE id = $1'
     const values = [id]
-    pool.query(text, values, (err) => {
+    client.query(text, values, (err) => {
       if (err) {
         console.log(err.stack)
       } else {
