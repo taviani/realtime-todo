@@ -18,7 +18,7 @@ const client = new Client({
   }
 })
 
-client.connect();
+client.connect()
 
 // pool.on('connect', () => {
 //   console.log('connected to the db')
