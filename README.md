@@ -1,6 +1,6 @@
 # realtime-todo
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/taviani/realtime-todo.svg)](https://greenkeeper.io/) [![Build Status](https://travis-ci.org/taviani/realtime-todo.svg?branch=master)](https://travis-ci.org/taviani/realtime-todo)
+[![Greenkeeper badge](https://badges.greenkeeper.io/taviani/realtime-todo.svg)](https://greenkeeper.io/)
 
 A node app to practice on sockets. Realtime todo list. Persisting items in postgres db and deployed to heroku.
 
